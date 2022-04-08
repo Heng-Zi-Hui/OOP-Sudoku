@@ -40,12 +40,17 @@ public class GameBoard extends JPanel {
 	      
 		
 	// [TODO 3] Allocate a common listener as the ActionEvent listener for all the
-	//  Cells (JTextFields)
-	      
+	//  Cells (JTextFields)  
 		
 	
 	// [TODO 4] Every editable cell adds this common listener
-
+		for (int row ...) {
+			   for (int col ...) {
+			      if (cells[row][col].isEditable()) {
+			         cells[row][col].addActionListener(listener);   // For all editable rows and cols
+			      }
+			   }
+			}
 	      
 		super.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
 	   
@@ -97,5 +102,43 @@ public class GameBoard extends JPanel {
 	   
 	
 	// [TODO 2] Define a Listener Inner Class
+	private class CellInputListener implements ActionListener {
+	      
+		@Override	      
+		public void actionPerformed(ActionEvent e) {
+	         
+			// Get a reference of the JTextField that triggers this action event         
+			Cell sourceCell = (Cell)e.getSource();
+			 
+			
+			// Retrieve the int entered        
+			int numberIn = Integer.parseInt(sourceCell.getText());
+	         
+			// For debugging       
+			System.out.println("You entered " + numberIn);
+
+	         
+			/*
+			* [TODO 5]
+	        * Check the numberIn against sourceCell.number.
+	        * Update the cell status sourceCell.status,
+	        * and re-paint the cell via sourceCell.paint().
+	        */        
+			if (numberIn == sourceCell.number) {	             
+				sourceCell.status = CellStatus.CORRECT_GUESS;  
+			} else {	        	  
+				sourceCell.status = CellStatus.WRONG_GUESS;	          
+			}
+	          
+			sourceCell.paint();
+
+	          
+	         /*
+	          * [TODO 6][Later] Check if the player has solved the puzzle after this move,
+	          *   by call isSolved(). Put up a congratulation JOptionPane, if so.
+	          */
+	      }
+	   }
+	
 
 }
