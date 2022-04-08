@@ -41,11 +41,11 @@ public class GameBoard extends JPanel {
 		
 	// [TODO 3] Allocate a common listener as the ActionEvent listener for all the
 	//  Cells (JTextFields)  
-		
+		CellInputListener listener = new CellInputListener();
 	
 	// [TODO 4] Every editable cell adds this common listener
-		for (int row ...) {
-			   for (int col ...) {
+		for (int row = 0; row < GRID_SIZE; ++row) {
+			   for (int col = 0; col < GRID_SIZE; ++col) {
 			      if (cells[row][col].isEditable()) {
 			         cells[row][col].addActionListener(listener);   // For all editable rows and cols
 			      }
@@ -126,7 +126,8 @@ public class GameBoard extends JPanel {
 	        */        
 			if (numberIn == sourceCell.number) {	             
 				sourceCell.status = CellStatus.CORRECT_GUESS;  
-			} else {	        	  
+			} 
+			else {	        	  
 				sourceCell.status = CellStatus.WRONG_GUESS;	          
 			}
 	          
@@ -137,6 +138,9 @@ public class GameBoard extends JPanel {
 	          * [TODO 6][Later] Check if the player has solved the puzzle after this move,
 	          *   by call isSolved(). Put up a congratulation JOptionPane, if so.
 	          */
+			if(isSolved()) {
+				JOptionPane.showMessageDialog(null, "Congratulation!");
+			}
 	      }
 	   }
 	
