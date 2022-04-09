@@ -1,6 +1,8 @@
 package sudoku;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
+
 import javax.swing.*;
 
 public class GameBoard extends JPanel {
@@ -13,8 +15,7 @@ public class GameBoard extends JPanel {
 	// Name-constants for UI sizes	   
 	public static final int CELL_SIZE = 60;   // Cell width/height in pixels   
 	public static final int BOARD_WIDTH  = CELL_SIZE * GRID_SIZE;	   
-	public static final int BOARD_HEIGHT = CELL_SIZE * GRID_SIZE;
-	                                             // Board width/height in pixels
+	public static final int BOARD_HEIGHT = CELL_SIZE * GRID_SIZE; // Board width/height in pixels
 
 	// The game board composes of 9x9 "Customized" JTextFields,	   
 	private Cell[][] cells = new Cell[GRID_SIZE][GRID_SIZE];
@@ -23,8 +24,10 @@ public class GameBoard extends JPanel {
 	// It also contains a Puzzle	   
 	private Puzzle puzzle = new Puzzle();
 
-	   
+	Random random = new Random();
+	int min, max;
 	
+	   
 	// Constructor	   
 	public GameBoard() {	      
 		super.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE));  // JPanel
@@ -56,18 +59,62 @@ public class GameBoard extends JPanel {
 	   
 	}
 
-	   /**
-	    * Initialize the puzzle number, status, background/foreground color,
-	    *   of all the cells from puzzle[][] and isRevealed[][].
-	    * Call to start a new game.
-	    */
+	
+	/**
+	* Initialize the puzzle number, status, background/foreground color,
+	*   of all the cells from puzzle[][] and isRevealed[][].
+	* Call to start a new game.
+	*/
 	   
 	
-	
-	public void init() {
-	      
+	public void easyBoard() {  		//call this method for easy mode
+		
+		min = 10;
+		max = 15;
+		
+		int value = random.nextInt(max + min) + min;
+		
 		// Get a new puzzle
-		puzzle.newPuzzle(randomGenerator(30));
+		puzzle.newPuzzle(value);
+
+	      
+		// Based on the puzzle, initialize all the cells. 
+		for (int row = 0; row < GRID_SIZE; ++row) {   
+			for (int col = 0; col < GRID_SIZE; ++col) {     
+				cells[row][col].init(puzzle.numbers[row][col], puzzle.isShown[row][col]);   
+			}     
+		}   
+	}
+	
+	public void mediumBoard() {		//call this method for medium mode
+		
+		min = 15;
+		max = 25;
+		
+		int value = random.nextInt(max + min) + min;
+		
+		
+		// Get a new puzzle
+		puzzle.newPuzzle(value);
+
+	      
+		// Based on the puzzle, initialize all the cells. 
+		for (int row = 0; row < GRID_SIZE; ++row) {   
+			for (int col = 0; col < GRID_SIZE; ++col) {     
+				cells[row][col].init(puzzle.numbers[row][col], puzzle.isShown[row][col]);   
+			}     
+		}   
+	}
+	
+	public void hardBoard() {		//call this method for hard mode
+		
+		min = 25;
+		max = 35;
+		
+		int value = random.nextInt(max + min) + min;
+		
+		// Get a new puzzle
+		puzzle.newPuzzle(value);
 
 	      
 		// Based on the puzzle, initialize all the cells. 
@@ -84,10 +131,10 @@ public class GameBoard extends JPanel {
         return (int) Math.floor((Math.random() * num+1));
     }
 	
-	   /**
-	    * Return true if the puzzle is solved
-	    * i.e., none of the cell have status of NO_GUESS or WRONG_GUESS
-	    */
+	/**
+	* Return true if the puzzle is solved
+	* i.e., none of the cell have status of NO_GUESS or WRONG_GUESS
+	*/
 	   
 	
 	public boolean isSolved() {

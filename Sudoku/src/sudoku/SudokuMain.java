@@ -25,9 +25,15 @@ public class SudokuMain extends JFrame{
 	      
 		// Add a button to the south to re-start the game
 
-	      
-		board.init();
-
+	    
+		// Easy board for easy button
+		board.easyBoard();
+		
+		// Medium board for easy button
+		//board.mediumBoard();
+		
+		// Hard board for hard button
+		//board.hardBoard();
 	      
 		pack();     // Pack the UI components, instead of setSize()
   
