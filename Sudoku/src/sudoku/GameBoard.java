@@ -37,7 +37,41 @@ public class GameBoard extends JPanel {
 			for (int col = 0; col < GRID_SIZE; ++col) {            
 				cells[row][col] = new Cell(row, col);
 	            super.add(cells[row][col]);   // JPanel        
-			}	      
+	            cells[row][col].setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+	            cells[row][col].setHorizontalAlignment(JTextField.CENTER);
+	            cells[row][col].setFont(new Font("Monospaced", Font.BOLD, 20));
+	            if (row == 0 || row == 3 || row == 6) { //Top border
+	            	if(col == 0) { //Top & Left border
+	            		cells[row][col].setBorder(BorderFactory.createMatteBorder(6,6,1,1,Color.DARK_GRAY));
+	            	}
+	            	else if(col == 2 || col == 5 || col == 8) { //Top & Right border
+	            		cells[row][col].setBorder(BorderFactory.createMatteBorder(6,1,1,6,Color.DARK_GRAY));
+	            	}
+	            	else { // Top border
+	            		cells[row][col].setBorder(BorderFactory.createMatteBorder(6,1,1,1,Color.DARK_GRAY));
+	            	}
+	            	
+	            }
+	            if (row == 8) { //Bottom border
+	            	if (col == 0) { //Bottom & Left border
+	            		cells[row][col].setBorder(BorderFactory.createMatteBorder(1,6,6,1,Color.DARK_GRAY));
+	            	}
+	            	else if (col == 2 || col == 5 || col == 8) { //Bottom & right border
+	            		cells[row][col].setBorder(BorderFactory.createMatteBorder(1,1,6,6,Color.DARK_GRAY));
+	            	}
+	            	else { //Bottom border
+	            		cells[row][col].setBorder(BorderFactory.createMatteBorder(1,1,6,1,Color.DARK_GRAY));
+	            	}
+	            }
+	            if (row == 1 || row == 2 || row == 4 || row == 5 || row == 7) { //Right/Left Borders
+	            	if (col == 2 || col == 5 || col == 8) { //Right border
+	            		cells[row][col].setBorder(BorderFactory.createMatteBorder(1,1,1,6,Color.DARK_GRAY));
+	            	}
+	            	else if (col == 0){ //Left border
+	            		cells[row][col].setBorder(BorderFactory.createMatteBorder(1,6,1,1,Color.DARK_GRAY));
+	            	}
+	            }
+			}
 		}
 
 	      
