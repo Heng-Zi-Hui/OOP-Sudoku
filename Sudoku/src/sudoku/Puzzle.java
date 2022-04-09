@@ -12,7 +12,7 @@ public class Puzzle {
 	   
 	// The masks - to show or not   
 	boolean[][] isShown = new boolean[GameBoard.GRID_SIZE][GameBoard.GRID_SIZE];
-
+	int edge = 3;
 	   
 	// Constructor   
 	public Puzzle() {		
@@ -21,48 +21,163 @@ public class Puzzle {
 
 	   
 	// Generate a new puzzle given the number of cells to be guessed  
-	// Need to set the arrays numbers and isShown  
-	public void newPuzzle(int numToGuess) {  
-		// Hardcoded here for simplicity.
-		int[][] hardcodedNumbers =
-	         {{5, 3, 4, 6, 7, 8, 9, 1, 2},
-	          {6, 7, 2, 1, 9, 5, 3, 4, 8},
-	          {1, 9, 8, 3, 4, 2, 5, 6, 7},
-	          {8, 5, 9, 7, 6, 1, 4, 2, 3},
-	          {4, 2, 6, 8, 5, 3, 7, 9, 1},
-	          {7, 1, 3, 9, 2, 4, 8, 5, 6},
-	          {9, 6, 1, 5, 3, 7, 2, 8, 4},
-	          {2, 8, 7, 4, 1, 9, 6, 3, 5},
-	          {3, 4, 5, 2, 8, 6, 1, 7, 9}};
-
-	      
-		// Copy from hardcoded number
-		for (int row = 0; row < GameBoard.GRID_SIZE; ++row) {    
-			for (int col = 0; col < GameBoard.GRID_SIZE; ++col) {   
-				numbers[row][col] = hardcodedNumbers[row][col];	         
+		// Need to set the arrays numbers and isShown  
+		public void newPuzzle(int numToGuess) {  
+			
+			fillDiagonal();
+			
+			fillRemaining(0, edge);
+							
+			boolean[][] hardcodedIsShown =
+		         {{true, true, true, true, true, true, true, true, true},
+		          {true, true, true, true, true, true, true, true, true},
+		          {true, true, true, true, true, true, true, true, true},
+		          {true, true, true, true, true, true, true, true, true},
+		          {true, true, true, true, true, true, true, true, true},
+		          {true, true, true, true, true, true, true, true, true},
+		          {true, true, true, true, true, true, true, true, true},
+		          {true, true, true, true, true, true, true, true, true},
+		          {true, true, true, true, true, true, true, true, true}};
+			
+			  int count = numToGuess; 
+			  while (count != 0) { 
+				  int cellId = randomGenerator(GameBoard.GRID_SIZE * GameBoard.GRID_SIZE)-1;
+			  
+				  int row = (cellId / GameBoard.GRID_SIZE); 		  
+				  int col = cellId % 9; 
+				  
+				  if (col != 0)
+					  col = col - 1;
+			  
+				  if (hardcodedIsShown[row][col] == true) { 			  
+					  count--; 
+					  hardcodedIsShown[row][col] = false; 
+				  } 
+			  }
+			 
+		      
+		      for (int row = 0; row < GameBoard.GRID_SIZE; ++row) {
+		         for (int col = 0; col < GameBoard.GRID_SIZE; ++col) {
+		            isShown[row][col] = hardcodedIsShown[row][col];
+		         }
+		      }
+			
+		}
+		
+		void  fillDiagonal() {
+			for(int i=0; i<GameBoard.GRID_SIZE; i=i+edge) {
+				
+				// for diagonal box, start coordinates->i==j
+				fillBox(i, i);
 			}
+		}
+		
+		void fillBox(int row,int col)
+	    {
+	        int num;
+	        for (int i=0; i<edge; i++)
+	        {
+	            for (int j=0; j<edge; j++)
+	            {
+	                do
+	                {
+	                    num = randomGenerator(GameBoard.GRID_SIZE);
+	                }
+	                while (!unUsedInBox(row, col, num));
+	 
+	                numbers[row+i][col+j] = num;
+	            }
+	        }
 	    }
-
-	      
-		// Need to use numToGuess!      
-		// For testing, only 2 cells of "8" is NOT shown 
-		boolean[][] hardcodedIsShown =   
-			{{true, true, true, true, true, false, true, true, true},
-	          {true, true, true, true, true, true, true, true, false},
-	          {true, true, true, true, true, true, true, true, true},
-	          {true, true, true, true, true, true, true, true, true},
-	          {true, true, true, true, true, true, true, true, true},
-	          {true, true, true, true, true, true, true, true, true},
-	          {true, true, true, true, true, true, true, true, true},
-	          {true, true, true, true, true, true, true, true, true},
-	          {true, true, true, true, true, true, true, true, true}};
-
-	      
-		// Copy from hardcoded masks  
-		for (int row = 0; row < GameBoard.GRID_SIZE; ++row) {	         
-			for (int col = 0; col < GameBoard.GRID_SIZE; ++col) {  
-				isShown[row][col] = hardcodedIsShown[row][col];	         
-			}     
-		}   
-	}
+		
+		// Returns false if given 3 x 3 block contains number.
+	    boolean unUsedInBox(int rowStart, int colStart, int num)
+	    {
+	        for (int i = 0; i<edge; i++)
+	            for (int j = 0; j<edge; j++)
+	                if (numbers[rowStart+i][colStart+j] == num)
+	                    return false;
+	 
+	        return true;
+	    }
+		
+		
+		// Generate random number 
+	    int randomGenerator(int num)
+	    {
+	        return (int) Math.floor((Math.random() * num+1));
+	    }
+	 
+	    // Check if safe to insert to cell
+	    boolean CheckIfSafe(int row, int col, int num)
+	    {
+	        return (unUsedInRow(row, num) &&
+	                unUsedInCol(col, num) &&
+	                unUsedInBox(row - row % edge, col - col % edge, num));
+	    }
+	 
+	    // check in the row for existence
+	    boolean unUsedInRow(int row, int num)
+	    {
+	        for (int j = 0; j<GameBoard.GRID_SIZE; j++)
+	           if (numbers[row][j] == num)
+	                return false;
+	        return true;
+	    }
+	 
+	    // check in the col for existence
+	    boolean unUsedInCol(int col,int num)
+	    {
+	        for (int i = 0; i<GameBoard.GRID_SIZE; i++)
+	            if (numbers[i][col] == num)
+	                return false;
+	        return true;
+	    }
+		
+		
+	    //Fill remaining
+	    boolean fillRemaining(int row, int col)
+	    {
+	        if (col>=GameBoard.GRID_SIZE && row<GameBoard.GRID_SIZE-1)
+	        {
+	            row = row + 1;
+	            col = 0;
+	        }
+	        if (row>=GameBoard.GRID_SIZE && col>=GameBoard.GRID_SIZE)
+	            return true;
+	 
+	        if (row < edge)
+	        {
+	            if (col < edge)
+	                col = edge;
+	        }
+	        else if (row < GameBoard.GRID_SIZE-edge)
+	        {
+	            if (col == (int)(row/edge)*edge)
+	                col =  col + edge;
+	        }
+	        else
+	        {
+	            if (col == GameBoard.GRID_SIZE-edge)
+	            {
+	                row = row + 1;
+	                col = 0;
+	                if (row >= GameBoard.GRID_SIZE)
+	                    return true;
+	            }
+	        }
+	 
+	        for (int num = 1; num<=GameBoard.GRID_SIZE; num++)
+	        {
+	            if (CheckIfSafe(row, col, num))
+	            {
+	                numbers[row][col] = num;
+	                if (fillRemaining(row, col+1))
+	                    return true;
+	 
+	                numbers[row][col] = 0;
+	            }
+	        }
+	        return false;
+	    }
 }

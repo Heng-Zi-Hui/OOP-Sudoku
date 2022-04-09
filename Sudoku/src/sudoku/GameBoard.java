@@ -67,7 +67,7 @@ public class GameBoard extends JPanel {
 	public void init() {
 	      
 		// Get a new puzzle
-		puzzle.newPuzzle(2);
+		puzzle.newPuzzle(randomGenerator(30));
 
 	      
 		// Based on the puzzle, initialize all the cells. 
@@ -78,7 +78,11 @@ public class GameBoard extends JPanel {
 		}   
 	}
 
-	
+	// Generate random number 
+    int randomGenerator(int num)
+    {
+        return (int) Math.floor((Math.random() * num+1));
+    }
 	
 	   /**
 	    * Return true if the puzzle is solved
