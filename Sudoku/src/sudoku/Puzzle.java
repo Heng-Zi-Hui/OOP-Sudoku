@@ -180,4 +180,14 @@ public class Puzzle {
 	        }
 	        return false;
 	    }
+	    
+	    
+	    
+		//for reveal but unused for now
+		/*
+		 * int revealCell(int cellRow, int cellCol) {
+		 * 
+		 * int hint = 0; hint = numbers[cellRow][cellCol]; return hint; }
+		 */
+		 
 }

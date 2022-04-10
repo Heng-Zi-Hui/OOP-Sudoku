@@ -2,6 +2,7 @@ package sudoku;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
+import java.util.Scanner;
 
 import javax.swing.*;
 
@@ -165,12 +166,12 @@ public class GameBoard extends JPanel {
         return (int) Math.floor((Math.random() * num+1));
     }
 	
+    
 	/**
 	* Return true if the puzzle is solved
 	* i.e., none of the cell have status of NO_GUESS or WRONG_GUESS
 	*/
-	   
-	
+    
 	public boolean isSolved() {
 	      
 		for (int row = 0; row < GRID_SIZE; ++row) {        
@@ -195,38 +196,86 @@ public class GameBoard extends JPanel {
 			// Get a reference of the JTextField that triggers this action event         
 			Cell sourceCell = (Cell)e.getSource();
 			 
+			//define the word "help" 
+			String help = "help";
 			
-			// Retrieve the int entered        
-			int numberIn = Integer.parseInt(sourceCell.getText());
-	         
-			// For debugging       
-			System.out.println("You entered " + numberIn);
-
-	         
 			/*
-			* [TODO 5]
-	        * Check the numberIn against sourceCell.number.
-	        * Update the cell status sourceCell.status,
-	        * and re-paint the cell via sourceCell.paint().
-	        */        
-			if (numberIn == sourceCell.number) {	             
-				sourceCell.status = CellStatus.CORRECT_GUESS;  
-			} 
-			else {	        	  
-				sourceCell.status = CellStatus.WRONG_GUESS;	          
+			 * String cellString = sourceCell.getText();
+			 * 
+			 * System.out.println(cellString);
+			 * 
+			 * if (cellString.equals(help)) {
+			 * 
+			 * System.out.println("help"); } else { System.out.println("error"); }
+			 */
+			
+			
+			if (sourceCell.getText().equals(help)) { 	//check if user inputs "help" in cell, can set as button as layout is ready
+				
+				int hintReveal = 0;
+				int hintRow = sourceCell.row;
+				int hintCol = sourceCell.col;
+						 
+						 
+				//System.out.println("You entered row: " + hintRow + " and col: " + hintCol);	 
+ 
+				//Reveals the number that user types "help" in that specific cell
+				cells[hintRow][hintCol].init(hintReveal = puzzle.numbers[hintRow][hintCol], puzzle.isShown[hintRow][hintCol] = true);	
+				System.out.println("Hint reaveal for row: " + hintRow + " and col: " + hintCol + " is " + hintReveal);
+				
+				//int n = Integer.parseInt(sourceCell.getText());
+				
+				//Reveals the cells that has this number n
+				/*for (int row = 0; row < GRID_SIZE; ++row) {        
+					for (int col = 0; col < GRID_SIZE; ++col) {
+						if(puzzle.numbers[row][col] == n) {
+							cells[row][col].init(puzzle.numbers[row][col], puzzle.isShown[row][col] = true);
+						}
+						
+					} 
+				}*/
+				
+				
+					 
 			}
+			else {		//proceeds to check the number input
+				
+				// Retrieve the int entered        
+				int numberIn = Integer.parseInt(sourceCell.getText());
+				
+				// For debugging       
+				System.out.println("You entered " + numberIn);
+				
+				
+				/*
+				* [TODO 5]
+		        * Check the numberIn against sourceCell.number.
+		        * Update the cell status sourceCell.status,
+		        * and re-paint the cell via sourceCell.paint().
+		        */        
+				
+				  if (numberIn == sourceCell.number) { 
+					  sourceCell.status = CellStatus.CORRECT_GUESS; 
+				  } 
+				  else { 
+					  sourceCell.status = CellStatus.WRONG_GUESS; 
+				}
+				  
+				  sourceCell.paint();
+			}
+			
+		 
 	          
-			sourceCell.paint();
-
-	          
-	         /*
-	          * [TODO 6][Later] Check if the player has solved the puzzle after this move,
-	          *   by call isSolved(). Put up a congratulation JOptionPane, if so.
-	          */
+	        /*
+	        * [TODO 6][Later] Check if the player has solved the puzzle after this move,
+	        *   by call isSolved(). Put up a congratulation JOptionPane, if so.
+	        */
+			
 			if(isSolved()) {
 				JOptionPane.showMessageDialog(null, "Congratulation!");
 			}
 	      }
+		
 	   }
 	
 

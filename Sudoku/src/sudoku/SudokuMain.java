@@ -27,7 +27,7 @@ public class SudokuMain extends JFrame{
 
 	    
 		// Easy board for easy button
-		board.easyBoard();
+		//board.easyBoard();
 		
 		// Medium board for easy button
 		//board.mediumBoard();
