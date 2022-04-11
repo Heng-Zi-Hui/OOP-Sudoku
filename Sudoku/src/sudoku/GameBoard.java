@@ -102,6 +102,8 @@ public class GameBoard extends JPanel {
 	*/
 	   
 	
+
+	
 	public void easyBoard() {  		//call this method for easy mode
 		
 		min = 10;
@@ -223,21 +225,12 @@ public class GameBoard extends JPanel {
 				cells[hintRow][hintCol].init(hintReveal = puzzle.numbers[hintRow][hintCol], puzzle.isShown[hintRow][hintCol] = true);	
 				System.out.println("Hint reaveal for row: " + hintRow + " and col: " + hintCol + " is " + hintReveal);
 				
-				//int n = Integer.parseInt(sourceCell.getText());
 				
-				//Reveals the cells that has this number n
-				/*for (int row = 0; row < GRID_SIZE; ++row) {        
-					for (int col = 0; col < GRID_SIZE; ++col) {
-						if(puzzle.numbers[row][col] == n) {
-							cells[row][col].init(puzzle.numbers[row][col], puzzle.isShown[row][col] = true);
-						}
-						
-					} 
-				}*/
-				
-				
-					 
+						 
 			}
+			
+			
+			
 			else {		//proceeds to check the number input
 				
 				// Retrieve the int entered        
@@ -277,6 +270,27 @@ public class GameBoard extends JPanel {
 	      }
 		
 	   }
+	
+	
+	void RevealNCells(int n) {
+		
+		//int n = Integer.parseInt(sourceCell.getText());
+		
+		//Reveals the cells that has this number n
+		/*for (int row = 0; row < GRID_SIZE; ++row) {        
+			for (int col = 0; col < GRID_SIZE; ++col) {
+				if(puzzle.numbers[row][col] == n) {
+					cells[row][col].init(puzzle.numbers[row][col], puzzle.isShown[row][col] = true);
+				}
+				
+			} 
+		}*/
+		
+			
+		
+	}
+	
+
 	
 
 }
