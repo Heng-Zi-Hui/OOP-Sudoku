@@ -3,6 +3,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
 
+import java.net.URL;
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.*;
 
 
@@ -18,8 +23,17 @@ public class SudokuMain {
 	private JPanel mainPanel = new JPanel(cardlayout);
 	private IntroPanel introPanel = new IntroPanel();
 	private GamePanel gamePanel = new GamePanel();
+	
 
-	public SudokuMain() {    
+	public SudokuMain() throws UnsupportedAudioFileException, IOException, LineUnavailableException{    
+		
+		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/soundTrack/Pokemon.wav").getAbsoluteFile());
+	    Clip clip = AudioSystem.getClip();
+	    
+	    clip.open(audioInputStream);
+	    clip.loop(Clip.LOOP_CONTINUOUSLY);
+	    clip.start();
+		
 		mainPanel.add(introPanel.getMainComponent(), INTRO);   
 		mainPanel.add(gamePanel.getMainComponent(), GAME);
   
@@ -43,7 +57,7 @@ public class SudokuMain {
 		return mainPanel;  
 	}
 	   
-	private static void createAndShowUI() { 
+	private static void createAndShowUI() throws UnsupportedAudioFileException, IOException, LineUnavailableException { 
 		JFrame frame = new JFrame("Sudoku!");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	      
 		frame.getContentPane().add(new SudokuMain().getMainComponent()); 
@@ -52,10 +66,21 @@ public class SudokuMain {
 		frame.setVisible(true);  
 	}
 	   
-	public static void main(String[] args) {   
+	public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException{   
 		java.awt.EventQueue.invokeLater(new Runnable() {    
 			public void run() {   
-				createAndShowUI();   
+				try {
+					createAndShowUI();
+				} catch (UnsupportedAudioFileException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (LineUnavailableException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}   
 			}    
 		});  
 	}
@@ -133,6 +158,7 @@ class GamePanel {
 	GameBoard board = new GameBoard();
 		    
 	private JPanel mainPanel = new JPanel();  
+	JLabel scorelbl = new JLabel("Your Score: " + board.getScore());
 	private JButton back;
 	private JButton reset;
 	private JMenu menu;  
@@ -156,11 +182,11 @@ class GamePanel {
 		mainPanel.setLayout(new BorderLayout());
 		JPanel panel = new JPanel(new GridLayout(1, 3));
 		
-		board.easyBoard();   
+		//board.easyBoard();   
 		mainPanel.add(board, BorderLayout.CENTER);
 		         
         JMenuBar mb=new JMenuBar();  
-        menu=new JMenu("Change Difficulty Level");   
+        menu=new JMenu("Choose Difficulty Level");   
         easy=new JMenuItem("Easy");  
         medium=new JMenuItem("Medium");  
         hard=new JMenuItem("Hard");  
@@ -173,6 +199,7 @@ class GamePanel {
 		panel.add(mb);
 		panel.add(reset);
 		panel.add(timeLabel);
+		panel.add(scorelbl);
 		panel.add(back);
 		
 		mainPanel.add(panel, BorderLayout.SOUTH);
@@ -194,6 +221,7 @@ class GamePanel {
 	        String minutes_string=String.format("%02d", minutes);
 	        String hours_string=String.format("%02d", hours);
 	        timeLabel.setText(hours_string+":"+minutes_string+":"+seconds_string);
+	        scorelbl.setText("Your Score: " + board.getScore());
 	      }
 	    });
 	    timer.start();
@@ -209,6 +237,10 @@ class GamePanel {
 		minutes_string = String.format("%02d", minutes);
 		hours_string = String.format("%02d", hours);       
 		timeLabel.setText(hours_string+":"+minutes_string+":"+seconds_string);
+		timer.start();
+	}
+	
+	void start() {
 		timer.start();
 	}
 		

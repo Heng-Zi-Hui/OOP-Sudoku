@@ -1,12 +1,15 @@
 package sudoku;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileWriter;
 import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.*;
 
 public class GameBoard extends JPanel {
+	
+	int score;
 	
 	// Name-constants for the game board properties	   
 	public static final int GRID_SIZE = 9;    // Size of the board   
@@ -225,7 +228,8 @@ public class GameBoard extends JPanel {
 				cells[hintRow][hintCol].init(hintReveal = puzzle.numbers[hintRow][hintCol], puzzle.isShown[hintRow][hintCol] = true);	
 				System.out.println("Hint reaveal for row: " + hintRow + " and col: " + hintCol + " is " + hintReveal);
 				
-				
+				score -= 5;
+				System.out.println(score);
 						 
 			}
 			
@@ -249,9 +253,13 @@ public class GameBoard extends JPanel {
 				
 				  if (numberIn == sourceCell.number) { 
 					  sourceCell.status = CellStatus.CORRECT_GUESS; 
+					  score += 10;
+					  System.out.println(score);
 				  } 
 				  else { 
 					  sourceCell.status = CellStatus.WRONG_GUESS; 
+					  score -= 5;
+					  System.out.println(score);
 				}
 				  
 				  sourceCell.paint();
@@ -265,7 +273,12 @@ public class GameBoard extends JPanel {
 	        */
 			
 			if(isSolved()) {
-				JOptionPane.showMessageDialog(null, "Congratulation!");
+				JOptionPane.showMessageDialog(null, "Congratulation! Your score is " + score);
+				
+				/*try {
+					fileWriter = new FileWriter("ScoreBoard.txt");
+					fileWriter.write();
+				}*/
 			}
 	      }
 		
@@ -288,6 +301,10 @@ public class GameBoard extends JPanel {
 		
 			
 		
+	}
+	
+	public int getScore() {
+		return score;
 	}
 	
 
