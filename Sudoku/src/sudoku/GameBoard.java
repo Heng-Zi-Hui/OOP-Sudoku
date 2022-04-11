@@ -9,7 +9,7 @@ import javax.swing.*;
 
 public class GameBoard extends JPanel {
 	
-	int score;
+	public static int score;
 	
 	// Name-constants for the game board properties	   
 	public static final int GRID_SIZE = 9;    // Size of the board   
@@ -109,8 +109,8 @@ public class GameBoard extends JPanel {
 	
 	public void easyBoard() {  		//call this method for easy mode
 		
-		min = 10;
-		max = 15;
+		min = 2;
+		max = 5;
 		
 		int value = random.nextInt(max + min) + min;
 		
@@ -128,8 +128,8 @@ public class GameBoard extends JPanel {
 	
 	public void mediumBoard() {		//call this method for medium mode
 		
-		min = 15;
-		max = 25;
+		min = 10;
+		max = 20;
 		
 		int value = random.nextInt(max + min) + min;
 		
@@ -148,8 +148,8 @@ public class GameBoard extends JPanel {
 	
 	public void hardBoard() {		//call this method for hard mode
 		
-		min = 25;
-		max = 35;
+		min = 20;
+		max = 30;
 		
 		int value = random.nextInt(max + min) + min;
 		
@@ -274,11 +274,6 @@ public class GameBoard extends JPanel {
 			
 			if(isSolved()) {
 				JOptionPane.showMessageDialog(null, "Congratulation! Your score is " + score);
-				
-				/*try {
-					fileWriter = new FileWriter("ScoreBoard.txt");
-					fileWriter.write();
-				}*/
 			}
 	      }
 		
@@ -306,8 +301,6 @@ public class GameBoard extends JPanel {
 	public int getScore() {
 		return score;
 	}
-	
-
 	
 
 }

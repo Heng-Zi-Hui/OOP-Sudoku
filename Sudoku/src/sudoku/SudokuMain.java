@@ -221,7 +221,8 @@ class GamePanel {
 	        String minutes_string=String.format("%02d", minutes);
 	        String hours_string=String.format("%02d", hours);
 	        timeLabel.setText(hours_string+":"+minutes_string+":"+seconds_string);
-	        scorelbl.setText("Your Score: " + board.getScore());
+	        scorelbl.setText("Your Score: " + GameBoard.score);
+	        //System.out.println("Score: " + GameBoard.score);
 	      }
 	    });
 	    timer.start();
