@@ -1,6 +1,8 @@
 package sudoku;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
+
 import javax.swing.*;
 
 
@@ -135,7 +137,19 @@ class GamePanel {
 	private JButton reset;
 	private JMenu menu;  
     private JMenuItem easy, medium, hard;  
-	
+    
+    //Timer
+    JLabel timeLabel = new JLabel("<timer here>");
+    int elapsedTime=0;
+    int seconds=0;
+    int minutes=0;
+    int hours=0;
+    boolean started = false;
+    String seconds_string=String.format("%02d", seconds);
+    String minutes_string=String.format("%02d", minutes);
+    String hours_string=String.format("%02d", hours);
+    Timer timer;
+    
 		      
 	/** Constructor to setup the game and the GUI */  
 	public GamePanel() {  
@@ -155,11 +169,47 @@ class GamePanel {
         
 		back = new JButton("Return to main menu");
 		reset = new JButton("Reset puzzle");
+		
 		panel.add(mb);
 		panel.add(reset);
+		panel.add(timeLabel);
 		panel.add(back);
+		
 		mainPanel.add(panel, BorderLayout.SOUTH);
 		
+		timeLabel.setText(hours_string+":"+minutes_string+":"+seconds_string);
+	    timeLabel.setBounds(100,100,200,100);
+	    timeLabel.setFont(new Font ("Verdana",Font.PLAIN,35));
+	    timeLabel.setBorder(BorderFactory.createBevelBorder(1));
+	    timeLabel.setOpaque(true);
+	    timeLabel.setHorizontalAlignment(JTextField.CENTER);
+	    
+	    timer = new Timer(1000, new ActionListener() {
+	      public void actionPerformed(ActionEvent e) {
+	        elapsedTime=elapsedTime+1000;
+	        hours=elapsedTime/3600000;
+	        minutes=(elapsedTime/60000)%60;
+	        seconds=(elapsedTime/1000)%60;
+	        String seconds_string=String.format("%02d", seconds);
+	        String minutes_string=String.format("%02d", minutes);
+	        String hours_string=String.format("%02d", hours);
+	        timeLabel.setText(hours_string+":"+minutes_string+":"+seconds_string);
+	      }
+	    });
+	    timer.start();
+	}
+	
+	void reset() {
+		timer.stop();
+		elapsedTime=0;
+		seconds =0;
+		minutes=0;
+		hours=0;
+		seconds_string = String.format("%02d", seconds);
+		minutes_string = String.format("%02d", minutes);
+		hours_string = String.format("%02d", hours);       
+		timeLabel.setText(hours_string+":"+minutes_string+":"+seconds_string);
+		timer.start();
 	}
 		
    
@@ -175,6 +225,8 @@ class GamePanel {
 		reset.addActionListener(new ActionListener() {
 	         @Override
 	         public void actionPerformed(ActionEvent evt) {
+	        	reset();
+	        	 
 	        	mainPanel.remove(board);
 	 			
 	 			GameBoard newBoard = new GameBoard();
@@ -188,6 +240,8 @@ class GamePanel {
 		easy.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				reset();
+				
 				mainPanel.remove(board);
 	 			
 	 			GameBoard newBoard = new GameBoard();
@@ -201,6 +255,8 @@ class GamePanel {
 		medium.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				reset();
+				
 				mainPanel.remove(board);
 	 			
 	 			GameBoard newBoard = new GameBoard();
@@ -214,6 +270,8 @@ class GamePanel {
 		hard.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				reset();
+				
 				mainPanel.remove(board);
 	 			
 	 			GameBoard newBoard = new GameBoard();
