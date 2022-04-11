@@ -273,6 +273,7 @@ public class GameBoard extends JPanel {
 	        */
 			
 			if(isSolved()) {
+				GamePanel.timer.stop();
 				JOptionPane.showMessageDialog(null, "Congratulation! Your score is " + score);
 			}
 	      }

@@ -142,7 +142,8 @@ class IntroPanel {
 		});	   
 	}
    
-	public void addStartBtnActionListener(ActionListener listener) {	      
+	public void addStartBtnActionListener(ActionListener listener) {	
+		GamePanel.timer.restart();
 		start.addActionListener(listener);
 	
 	}
@@ -174,7 +175,7 @@ class GamePanel {
     String seconds_string=String.format("%02d", seconds);
     String minutes_string=String.format("%02d", minutes);
     String hours_string=String.format("%02d", hours);
-    Timer timer;
+    public static Timer timer;
     
 		      
 	/** Constructor to setup the game and the GUI */  
