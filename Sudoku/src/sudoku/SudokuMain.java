@@ -62,7 +62,6 @@ public class SudokuMain {
 	
 class IntroPanel { 
 	private JPanel mainPanel = new JPanel(); 
-	private JPanel panel = new JPanel();
 	private JLabel lblWelcome;    // Declare a Label component
 	//private JLabel lblLevel;    // Declare a Label component	   
 	//private JRadioButton rbEasy,rbMedium, rbHard;
@@ -71,9 +70,8 @@ class IntroPanel {
 	private JButton exit = new JButton("Exit");
 
 	public IntroPanel() {    
-		mainPanel.setLayout(new BorderLayout());
-		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-		panel.setBackground(Color.DARK_GRAY);
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		mainPanel.setBackground(Color.DARK_GRAY);
 		
 		/*JLabel background=new JLabel(new ImageIcon("sudoku.jpeg"));
 		mainPanel.add(background);
@@ -93,17 +91,20 @@ class IntroPanel {
 		rbHard = new JRadioButton("Hard"); 
 		rbHard.setBounds(100,50,100,30);  
 */
-		panel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel.add(lblWelcome);  
+		lblWelcome.setAlignmentX(Component.CENTER_ALIGNMENT);
+		start.setAlignmentX(Component.CENTER_ALIGNMENT);
+		exit.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		mainPanel.add(lblWelcome);  
 		//mainPanel.add(lblLevel);
 	       
 		/*mainPanel.add(rbEasy);	
 		mainPanel.add(rbMedium);    
 		mainPanel.add(rbHard);*/
 	         
-		panel.add(start);   
-		panel.add(exit);
-		mainPanel.add(panel,BorderLayout.CENTER);
+		mainPanel.add(start);   
+		mainPanel.add(exit);
+		//mainPanel.add(panel,BorderLayout.CENTER);
 
 		exit.addActionListener(new ActionListener() {  
 			@Override   
